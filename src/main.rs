@@ -5,14 +5,8 @@
 use std::io;//librería necesaria para ingresar datos por consola
 use std::str::FromStr;// necesaria para convertir de string a entero en el ingreso de datos por teclado
 
-enum Sexo{
-    M,
-    F
-}
-
 struct Usuario {
     nombre: String,
-    sexo: Sexo,
     email: String,
     edad: u16,
     activo: bool
@@ -29,7 +23,6 @@ fn main(){
 fn new_user(nombre: String, email:String, edad: u16) -> Usuario{
     return Usuario {
         nombre,
-        sexo::M,
         email,
         edad,
         activo: true
