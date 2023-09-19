@@ -22,13 +22,13 @@ fn main(){
     let user: (String, String, u16);
     user = add_user_data();
 
-    let mut user: User = User::new_user(user.0, user.1, user.2);
-    let admin: bool = admin_acces(user.role); 
-    user = show_user(user.name, user.email, user.age, user.active, admin);
+    let user: User = User::new_user(user.0, user.1, user.2);
+    let admin: bool = admin_acces(&user.role); 
+    show_user(&user.name, &user.email, &user.age, &user.active, admin);
     
-    let useradmin: User = User::new_admin(user.name, user.email, user.age);
-    let admin: bool = admin_acces(useradmin.role);
-    show_user(useradmin.name, useradmin.email, useradmin.age, useradmin.active, admin);
+    let useradmin: User = User::new_admin(user.name, user.email, user.age, user.role);
+    let admin: bool = admin_acces(&useradmin.role);
+    show_user(&useradmin.name, &useradmin.email, &useradmin.age, &useradmin.active, admin);
     
 }
 
@@ -43,7 +43,7 @@ impl User {
         };
     }
 
-    fn new_admin(name:String, email:String, age: u16) -> User{
+    fn new_admin(name:String, email:String, age: u16, role:UserRole) -> User{
         println!("\n¿DESEA CAMBIAR LOS PERMISOS DE CUENTA?");
         println!("INGRESE 1 PARA ADMINISTRADOR");
         println!("INGRESE 0 PARA CUENTA BÁSICA");
@@ -73,19 +73,20 @@ impl User {
                 email,
                 age,
                 active: true,
-                role: UserRole::BASIC,
+                role,
             };
         }
     
     }
 }
 
-fn admin_acces(role: UserRole) -> bool{
+fn admin_acces(role: &UserRole) -> bool{
     match role {
         UserRole::ADMIN => true,
         UserRole::BASIC => false
     }
 }
+
 
 fn add_user_data()-> (String, String, u16) {
     let mut tupla: (String, String, u16) = ("".to_string(),"".to_string(),0);
@@ -106,14 +107,8 @@ fn add_user_data()-> (String, String, u16) {
     return tupla;
 }
 
-fn show_user(name:String, email:String, age:u16, active:bool, admin:bool) -> User {
+fn show_user(name:&String, email:&String, age:&u16, active:&bool, admin:bool){
     println!("\nNombre: {}email: {}edad: {}\nactivo: {}\nPermisos de Administrador: {}",name, email, age, active, admin);
-    return User {
-        name,
-        email,
-        age,
-        active: true,
-        role: UserRole::BASIC,
-    };
+
 }
 
